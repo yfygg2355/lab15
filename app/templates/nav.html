@@ -1,0 +1,63 @@
+{% if current_user.is_authenticated %}
+    {% set menu =  {'About me': url_for('portfolio.about'), 
+                    'Skills': url_for('portfolio.skill'),
+                    'Contacts': url_for('portfolio.contact'),
+                    'Feedback': url_for('users.review'),
+                    'To Do': url_for('todo.todo'),
+                    'Posts': url_for('post.all_posts'),
+                    'Dropdown': {
+                        'Info': url_for('info.info'),
+                        'My profile': url_for('auth.account'),
+                        'Create post': url_for('post.create'),
+                        'Log out': url_for('auth.logout'),
+                    }
+                    }
+    %}
+{% else %}
+    {% set menu =  {'About me': url_for('portfolio.about'), 
+                    'Skills': url_for('portfolio.skill'),
+                    'Contacts': url_for('portfolio.contact'),
+                    'Feedback': url_for('users.review'),
+                    'To Do': url_for('todo.todo'),
+                    'Posts': url_for('post.all_posts'),
+                    'Register': url_for('auth.register'),
+                    'Login': url_for('auth.login'),
+                    }
+    %}
+{% endif %}
+
+<nav>
+    <div>
+        <ul>
+
+            <li class="nav-item">
+               <a href="{{ url_for('portfolio.index') }}" >Portfolio</a>
+            </li>
+            {% for name, url in menu.items() %}
+                    {% if name == 'Dropdown' %}
+                        <li style="display: flex; flex-direction: column;">
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                {% for sub_name, sub_url in url.items() %}
+                                    {% if sub_name != 'Log out' %}
+                                        <a class="dropdown-item" href="{{ sub_url }}">{{ sub_name }}</a>
+                                    {% else %}
+                                        <form action="{{ sub_url }}" method="post">
+                                            <button type="submit" class="dropdown-item" >{{ sub_name }}</button>
+                                        </form>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a href="{{ url }}" class="nav-link">
+                            <p>{{ name }}</p>
+                        </a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+</nav>
+
+

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% from "_formhelpers.html" import render_field %}
+{% block title %} Create Post{% endblock %}
+{% block body %}
+
+<div style="text-align: center; padding-top: 20px;">
+    <h2 class="title">
+        Here you can add your post</h2>
+</div>
+<div style="max-width: 60%;">
+    <div>
+        <form method="post" action="{{ url_for('post.create') }}" novalidate enctype="multipart/form-data">
+            {{ form.csrf_token }}
+                {{ render_field(form.title)}}
+                {{ render_field(form.text)}}
+                {{ render_field(form.type)}}
+                {{ render_field(form.category)}}
+                <div>
+                    <label>Image</label>
+                    <div>
+                        <label for="picture" id="custom-file-label">{{ form.image.label }}</label>
+                        {{ render_field(form.image, show_label=false, show_errors=false, id='picture') }}
+    
+                        {% if form.image.errors %}
+                        <br><br>
+                            <ul class="errors">
+                                {% for error in form.image.errors %}
+                                    <p class="danger">{{ error }}</p>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            {{ form.submit(class="btn-round btn btn-primary btn-lg") }}
+        </form>
+    </div>
+</div>
+
+
+
+{% endblock %}

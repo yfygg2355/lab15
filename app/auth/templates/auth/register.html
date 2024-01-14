@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% from "_formhelpers.html" import render_field %}
+{% block title %} Register-Page{% endblock %}
+
+{% block body %}
+
+<body>
+    <div style="padding: 20px">
+        <div style="padding: 20px;">
+            <div>
+                <h4>register</h4>
+            </div>
+            <div>
+                <form method="POST" action="{{ url_for('auth.register') }}" novalidate>
+                    {{ form.csrf_token }}
+                        {{ render_field(form.username)}}
+                        {{ render_field(form.email)}}
+                        {{ render_field(form.password)}}
+                        {{ render_field(form.confirm_password)}}
+                    <div>
+                        {{ form.submit() }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+{% endblock %}
